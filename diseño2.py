@@ -43,6 +43,19 @@ def convert_to_base_10(num_str, base_ori):
     return resultado_base_10
 
 def convert_from_base_10(number, base):
+    print(number)
+    numer = ''.join(str(digit) for digit in number)
+    numero = int(numer)
+    result = ""
+    while numero > 0:
+        digit = numero % base
+        numero_destino.insert(0,digit)
+        traducir = traduccion_digitos(digit)
+        result = traducir+ result
+        numero //= base
+    return result
+
+def convertir_from_base_10(number, base):
     result = ""
     while number > 0:
         digit = number % base
@@ -50,7 +63,6 @@ def convert_from_base_10(number, base):
         traducir = traduccion_digitos(digit)
         result = traducir+ result
         number //= base
-    print (numero_destino)
     return result
 
 def traduccion_digitos(digito):
@@ -67,7 +79,7 @@ def convert_between_bases(num_str, base_origin, base_dest):
         num_in_base_dest = convert_to_base_10(num_str, base_origin)
     else:
         num_in_base_10 = convert_to_base_10(num_str, base_origin)
-        num_in_base_dest = convert_from_base_10(num_in_base_10, base_dest)
+        num_in_base_dest = convertir_from_base_10(num_in_base_10, base_dest)
     
     return num_in_base_dest
 
@@ -100,11 +112,11 @@ def convert_to_base_n(decimal_value, base_destino):
     result = ""
     while decimal_value > 0:
         remainder = decimal_value % base_destino
-        print(remainder)
+        
         if remainder in diccionario:
 
             result = str(diccionario[remainder]) + result
-            print(remainder)
+            
             decimal_value //= base_destino
     return result
 
