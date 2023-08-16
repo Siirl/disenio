@@ -100,8 +100,12 @@ def convert_to_base_n(decimal_value, base_destino):
     result = ""
     while decimal_value > 0:
         remainder = decimal_value % base_destino
-        result = str(remainder) + result
-        decimal_value //= base_destino
+        print(remainder)
+        if remainder in diccionario:
+
+            result = str(diccionario[remainder]) + result
+            print(remainder)
+            decimal_value //= base_destino
     return result
 
 def convert_between_bases_relacion(dic_digito, base_origen, base_destino):
@@ -171,7 +175,7 @@ def main():
                 print("relacion de potencia")
                 resultado = convert_between_bases_relacion(tupla_int, base_origen, base_destino)
                 print(f"El número {tupla_int} en base {base_origen} es equivalente a {resultado} en base {base_destino}.")
-            print(verificar(base_destino))
+
         else:
             print("Los valores NO estan en numeros")
             if exponente is None:
