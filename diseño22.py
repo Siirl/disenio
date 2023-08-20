@@ -1,5 +1,7 @@
-diccionario = {}
+diccionario = {} #a
 dic_traducido = []
+numeros=[]
+resultado=[]
 max = 27
 min = 0
 letrasMayus = {1:"A",2:"B",3:"C",4:"D",5:"E",6:"F",7:"G",8:"H",9:"I",10:"J",11:"K",12:"L",13:"M",14:"N",15:"Ñ",16:"O",17:"P",18:"Q",19:"R",20:"S",21:"T",22:"U",23:"V",24:"W",25:"X",26:"Y",27:"Z"}
@@ -46,7 +48,7 @@ def convertir_to_base_10(num_str, base_ori):
     exponente = len(num_str)
     resultado_base_10 = 0
     for x in range(1, exponente+1):
-        resultado_base_10 += num_str[x-1]*((base_ori)**(exponente-x))
+        resultado_base_10 += int(num_str[x-1]) * (base_ori ** (exponente - x))
     return resultado_base_10
 
 def convert_from_base_10(number, base):
@@ -122,7 +124,7 @@ def convert_to_base_n(decimal_value, base_destino):
         
         if remainder in diccionario:
 
-            result = str(diccionario[remainder]) + result
+            result = diccionario[remainder] + result
             
             decimal_value //= base_destino
     return result
@@ -139,7 +141,7 @@ def traducir_para_operar():
     for x in range(len(dic_digito)):
         for k, v in diccionario.items():
             if v == dic_digito[x]:
-                dic_traducido.append(k)
+                dic_traducido.append(int(k))
     results = dic_traducido
     return results
 def verificar(base_destino):
@@ -153,6 +155,41 @@ def verificar(base_destino):
         power += 1
         number //= 10
     return result
+
+def encontrar_relacion_potencias(base, numero):
+    def encontrar_exponente(base, numero):
+        exponente = 0
+        while base ** exponente != numero:
+            exponente += 1
+            if base ** exponente > numero:
+                return None  # No es una relación de potencias exacta
+        return exponente
+    
+    exponente = encontrar_exponente(base, numero)
+    if exponente is not None:
+        return exponente
+    else:
+        return "No hay una relación de potencias exacta"
+    
+
+def rela_potencias_mayor_a_menor(base_destino,lista_elementos,base_origen):
+    divisor = base_destino
+    base = base_origen
+    potencia = encontrar_relacion_potencias(divisor,base)
+    tamaño_lista=len(lista_elementos)
+    resultado_final=""
+    primer_numero=""
+    for x in range(tamaño_lista):
+        nume_a_operar = int(lista_elementos[tamaño_lista-x-1])
+        for exp in range (potencia+1):
+            cociente = nume_a_operar // (divisor**(int(potencia-exp)))
+            residuo = nume_a_operar % (divisor**(int(potencia-exp)))
+            primer_numero = str(primer_numero)+str(cociente)
+            nume_a_operar = residuo
+        resultado_final=str(int(primer_numero))+resultado_final
+        primer_numero=""
+    final=int(resultado_final)
+    return final
 
 def main():
     asignar_base_datos()
@@ -172,10 +209,13 @@ def main():
         exponente = 0
         tupla_int = []
         son_numeros = False
+        tempp=False
         if base_origen>base_destino:
             exponente = find_power_relation(base_destino, base_origen)
+            tempp = False
         else:
             exponente = find_power_relation(base_origen, base_destino)
+            tempp = True
         if respuesta == "y":
             son_numeros = True
             dic_digito_numeros = dic_digito
@@ -192,8 +232,14 @@ def main():
                 print(f"Convirtiendo a base {base_destino}: {tupla_int} = {resultado}")
             else:
                 print("relacion de potencia")
-                resultado = convert_between_bases_relacion(tupla_int, base_origen, base_destino)
-                print(f"El número {tupla_int} en base {base_origen} es equivalente a {resultado} en base {base_destino}.")
+                if tempp:
+                    print("normal")
+                    resultado = convert_between_bases_relacion(tupla_int, base_origen, base_destino)
+                    print(f"El número {tupla_int} en base {base_origen} es equivalente a {resultado} en base {base_destino}.")
+                else:
+                    print("Invertido")
+                    resultado = rela_potencias_mayor_a_menor(base_destino,tupla_int, base_origen)
+                    print(f"El número {tupla_int} en base {base_origen} es equivalente a {resultado} en base {base_destino}.")
 
         else:
             print("Los valores NO estan en numeros")
