@@ -4,8 +4,10 @@ numeros=[]
 resultado=[]
 max = 27
 min = 0
-letrasMayus = {1:"A",2:"B",3:"C",4:"D",5:"E",6:"F",7:"G",8:"H",9:"I",10:"J",11:"K",12:"L",13:"M",14:"N",15:"Ñ",16:"O",17:"P",18:"Q",19:"R",20:"S",21:"T",22:"U",23:"V",24:"W",25:"X",26:"Y",27:"Z"}
-letras = {1:"a",2:"b",3:"c",4:"d",5:"e",6:"f",7:"g",8:"h",9:"i",10:"j",11:"k",12:"l",13:"m",14:"n",15:"ñ",16:"o",17:"p",18:"q",19:"r",20:"s",21:"t",22:"u",23:"v",24:"w",25:"x",26:"y",27:"z"}
+letrasMayus = {1:"A",2:"B",3:"C",4:"D",5:"E",6:"F",7:"G",8:"H",9:"I",10:"J",11:"K",12:"L",13:"M",14:"N",15:"Ñ",
+               16:"O",17:"P",18:"Q",19:"R",20:"S",21:"T",22:"U",23:"V",24:"W",25:"X",26:"Y",27:"Z"}
+letras = {1:"a",2:"b",3:"c",4:"d",5:"e",6:"f",7:"g",8:"h",9:"i",10:"j",11:"k",12:"l",13:"m",14:"n",15:"ñ",
+          16:"o",17:"p",18:"q",19:"r",20:"s",21:"t",22:"u",23:"v",24:"w",25:"x",26:"y",27:"z"}
 simbolos = {1:"!",2:"@",3:"$",4:"%",5:"^",6:"&",7:"(",8:")",9:"_",10:"=",11:"{",12:"}",13:"[",14:"]",15:"?",16:":",17:"<",18:">",19:"/"}
 dic_digito =[]
 dic_digito_numeros =[]
@@ -52,7 +54,6 @@ def convertir_to_base_10(num_str, base_ori):
     return resultado_base_10
 
 def convert_from_base_10(number, base):
-    print(number)
     numer = ''.join(str(digit) for digit in number)
     numero = int(numer)
     result = ""
@@ -130,7 +131,6 @@ def convert_to_base_n(decimal_value, base_destino):
     return result
 
 def convert_between_bases_relacion(dic_digito, base_origen, base_destino):
-    num_str = ''.join(str(digit) for digit in dic_digito)
     num_int_list = [int(digit) for digit in dic_digito]
     decimal_value = convert_to_decimal(num_int_list, base_origen)
     result = convert_to_base_n(decimal_value, base_destino)
@@ -205,7 +205,7 @@ def main():
         if base_origen < 2 or base_origen > 1024 or base_destino < 2 or base_destino > 1024:
             print("Las bases deben estar en el rango de 2 a 1024.")
             return
-        num_traducido = traducir_para_operar()
+        
         exponente = 0
         tupla_int = []
         son_numeros = False
@@ -220,7 +220,6 @@ def main():
             son_numeros = True
             dic_digito_numeros = dic_digito
             tupla_int = tuple(int(item) for item in dic_digito_numeros)
-            print(tupla_int)
         elif respuesta == "n":
             son_numeros = False
         if son_numeros:
