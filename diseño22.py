@@ -133,6 +133,7 @@ def convert_to_base_n(decimal_value, base_destino):
 def convert_between_bases_relacion(dic_digito, base_origen, base_destino):
     num_int_list = [int(digit) for digit in dic_digito]
     decimal_value = convert_to_decimal(num_int_list, base_origen)
+    print(decimal_value)
     result = convert_to_base_n(decimal_value, base_destino)
     return result
 
@@ -191,7 +192,7 @@ def rela_potencias_mayor_a_menor(base_destino,lista_elementos,base_origen):
     final=int(resultado_final)
     return final
 
-def main():
+def main(): 
     asignar_base_datos()
     respuesta = input("Manejar el codigo con numeros?")
     cantidad_elementos = input("Ingrese cuantos elementos tiene su numero: ")
@@ -222,6 +223,8 @@ def main():
             tupla_int = tuple(int(item) for item in dic_digito_numeros)
         elif respuesta == "n":
             son_numeros = False
+            dicc_traducido=traducir_para_operar()
+            print(dicc_traducido)
         if son_numeros:
             print("Los valores estan en numeros")
             if exponente is None:
@@ -249,9 +252,14 @@ def main():
                 print(f"Convirtiendo a base {base_destino}: {dic_traducido} = {resultado}")
             else:
                 print("relacion de potencia")
-                print(dic_traducido)
-                resultado = convert_between_bases_relacion(dic_traducido, base_origen, base_destino)
-                print(f"El número {dic_traducido} en base {base_origen} es equivalente a {resultado} en base {base_destino}.")
+                if tempp:
+                    print("normal")
+                    resultado = convert_between_bases_relacion(dicc_traducido, base_origen, base_destino)
+                    print(f"El número {dicc_traducido} en base {base_origen} es equivalente a {resultado} en base {base_destino}.")
+                else:
+                    print("Invertido")
+                    resultado = rela_potencias_mayor_a_menor(base_destino,dicc_traducido, base_origen)
+                    print(f"El número {dicc_traducido} en base {base_origen} es equivalente a {resultado} en base {base_destino}.")
 
     else:
         print("Por favor digite una cantidad valida.")
