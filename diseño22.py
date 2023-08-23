@@ -122,18 +122,18 @@ def convert_to_base_n(decimal_value, base_destino):
     result = ""
     while decimal_value > 0:
         remainder = decimal_value % base_destino
+        print (remainder)
         
         if remainder in diccionario:
 
             result = diccionario[remainder] + result
-            
+            print (diccionario[remainder])
             decimal_value //= base_destino
     return result
 
 def convert_between_bases_relacion(dic_digito, base_origen, base_destino):
     num_int_list = [int(digit) for digit in dic_digito]
     decimal_value = convert_to_decimal(num_int_list, base_origen)
-    print(decimal_value)
     result = convert_to_base_n(decimal_value, base_destino)
     return result
 
@@ -187,6 +187,7 @@ def rela_potencias_mayor_a_menor(base_destino,lista_elementos,base_origen):
             residuo = nume_a_operar % (divisor**(int(potencia-exp)))
             primer_numero = str(primer_numero)+str(cociente)
             nume_a_operar = residuo
+            print(primer_numero)
         resultado_final=str(int(primer_numero))+resultado_final
         primer_numero=""
     final=int(resultado_final)
@@ -224,7 +225,6 @@ def main():
         elif respuesta == "n":
             son_numeros = False
             dicc_traducido=traducir_para_operar()
-            print(dicc_traducido)
         if son_numeros:
             print("Los valores estan en numeros")
             if exponente is None:
