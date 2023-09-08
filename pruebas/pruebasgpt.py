@@ -1,18 +1,22 @@
-result = []
-grupos = []
+import tkinter as tk
 
-# Divide cada número en dígitos y almacénalos en la lista 'result'
-for number in lista:
-    number_str = str(number)
-    result.extend(map(str, number_str))
+ventana = tk.Tk()
+ventana.title("Bloquear entrada de texto")
 
-# Invierte la lista resultante
-lista2 = result[::-1]
-# Agrupa en grupos de 3
-for i in range(0, len(lista2), numeeee):  # Cambio de 2 a 3 aquí
-    grupo = lista2[i:i + numeeee]
-    grupos.append(str(''.join(map(str, grupo))))
+# Variable de estado para controlar si la entrada de texto está habilitada o no
+entrada_habilitada = True
 
-# Invierte nuevamente cada número en los grupos
-grup = [int(str(num)[::-1]) for num in grupos]
+def asignar_base():
+    global entrada_habilitada
+    entrada_habilitada = False
+    entrada_base.config(state=tk.DISABLED)
 
+base = tk.Label(ventana, text="Ingrese la base de los números a trabajar:")
+entrada_base = tk.Entry(ventana, state=tk.NORMAL)  # Comienza habilitada
+boton_base = tk.Button(ventana, text="Guardar base", command=asignar_base)
+
+base.pack()
+entrada_base.pack()
+boton_base.pack()
+
+ventana.mainloop()
