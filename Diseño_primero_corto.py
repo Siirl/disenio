@@ -1,6 +1,3 @@
-import tkinter as tk
-from tkinter import messagebox
-
 diccionario = {}
 dic_traducido = []
 max = 27
@@ -112,7 +109,6 @@ def encontrar_exponente(base_destino, base_origen):
     return exponente
 
 def encontrar_relacion_potencias(base_destino, base_origen):
-
     exponente = encontrar_exponente(base_destino, base_origen)
     if exponente is not None:
         return exponente
@@ -134,6 +130,7 @@ def rela_potencias_mayor_a_menor(base_destino,lista_elementos,base_origen):
             residuo = nume_a_operar % (divisor**(int(potencia-exp)))
             primer_numero = str(primer_numero)+str(cociente)
             nume_a_operar = residuo
+            
         resultado_final=str(int(primer_numero))+resultado_final
         primer_numero=""
     final=int(resultado_final)
@@ -181,7 +178,7 @@ def convert_bases_relation_normal(lista_numeros,base_origen,exponente):
             numero = numero +(temp*(int(base_origen)**(exponente-exp-1)))
             if len(num_in_x)>1:
                 num_in_x=num_in_x[1:]
-        result=str(numero)+result
+        result=str(diccionario.get(numero))+result
         numero=0
     return result
 
