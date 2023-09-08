@@ -1,4 +1,4 @@
-# Definición de variables globales
+
 numero1 = []
 numero2 = []
 resultado_suma = []
