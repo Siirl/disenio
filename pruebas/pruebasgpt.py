@@ -1,22 +1,23 @@
-import tkinter as tk
+def igualar_longitud_listas(lista1, lista2):
+    
+    lista1.append(0)
+    lista2.append(0)
+    len1 = len(lista1)
+    len2 = len(lista2)
+    print(lista1, lista2)
+    if len1 < len2:
+        diferencia = len2 - len1
+        lista1 = [0] * diferencia + lista1
+        
+    elif len2 < len1:
+        diferencia = len1 - len2
+        lista2 = [0] * diferencia + lista2
 
-ventana = tk.Tk()
-ventana.title("Bloquear entrada de texto")
+    return lista1, lista2
 
-# Variable de estado para controlar si la entrada de texto está habilitada o no
-entrada_habilitada = True
-
-def asignar_base():
-    global entrada_habilitada
-    entrada_habilitada = False
-    entrada_base.config(state=tk.DISABLED)
-
-base = tk.Label(ventana, text="Ingrese la base de los números a trabajar:")
-entrada_base = tk.Entry(ventana, state=tk.NORMAL)  # Comienza habilitada
-boton_base = tk.Button(ventana, text="Guardar base", command=asignar_base)
-
-base.pack()
-entrada_base.pack()
-boton_base.pack()
-
-ventana.mainloop()
+# Ejemplo de uso:
+lista1 = [1, 2, 3, 4, 5,6,7,8,9,0,9,8,6,5]
+lista2 = [1, 2, 3]
+lista1, lista2 = igualar_longitud_listas(lista1, lista2)
+print(lista1)  # Salida: [0, 1, 2, 3, 4, 5]
+print(lista2)  # Salida: [0, 0, 0, 1, 2, 3]
