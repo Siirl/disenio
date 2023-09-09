@@ -11,6 +11,7 @@ def asignar_base(base_num):
     base = base_num
 
 def operar():
+    global resultado_resta, resultado_suma
     global numero1
     global numero2
     global tam
@@ -20,13 +21,12 @@ def operar():
         tam = arreglar_num()
         realizar_operacion_resta(num,num2,tam)
         realizar_operacion_suma(num,num2,tam)
-        print(num,num2)
     else:
         num.reverse()
         num2.reverse()
         realizar_operacion_resta(num,num2,tam)
         realizar_operacion_suma(num,num2,tam)
-        print(num,num2)
+    print("Suma: ",resultado_suma,"\nResta: ",resultado_resta)
     
     
 
@@ -74,13 +74,11 @@ def realizar_operacion_resta(num,num2,tam):
     num,num2=verificar_numeros(num,num2,tam)
     num.reverse()
     num2.reverse()
-    print("Resta: ",num,num2)
     for x in range(tam):
         if (int(num[x])<int(num2[x])):
             num[x+1]=num[x+1]-1
             num[x]=num[x]+base
         operacion = int(num[x])-int(num2[x])
-        print("operacion: ",operacion)
         resultado_resta.append(operacion)
     resultado_resta.reverse()
 
@@ -96,4 +94,4 @@ def verificar_numeros(num,num2,tam):
         if num[tam-x-1] < num2[tam-x-1]:
             return num2,num
         else:
-            return num2,num
+            return num,num2

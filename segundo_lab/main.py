@@ -18,6 +18,9 @@ def igualar_longitud_listas(lista1, lista2):
     elif len2 < len1:
         diferencia = len1 - len2
         lista2 = [0] * diferencia + lista2
+    elif len1 == len2:
+        diferencia = 0
+        
 
     return lista1, lista2
 
@@ -81,7 +84,8 @@ def operar():
     diseño_dos.resultado_suma.clear
     diseño_dos.temp = False
     mostrar_numeros()
-    numeros_lista1, numeros_lista2 =igualar_longitud_listas(numeros_lista1, numeros_lista2)
+    if (len(numeros_lista1) != len(numeros_lista2)):
+        numeros_lista1, numeros_lista2 =igualar_longitud_listas(numeros_lista1, numeros_lista2)
     diseño_dos.numero1 = numeros_lista1
     diseño_dos.numero2 = numeros_lista2
     print(numeros_lista1, numeros_lista2)
@@ -111,12 +115,25 @@ def asignar_resta_numero_2():
     numeros_lista2 = diseño_dos.resultado_resta
     mostrar_numeros()
 
-base = tk.Label(ventana, text="Ingrese la base de los numeros a trabajar:")
+def limpiar1():
+    global numeros_lista1
+    diseño_dos.numero1 =[]
+    numeros_lista1 = []
+    mostrar_numeros()
+    
+def limpiar2():
+    global numeros_lista2
+    diseño_dos.numero2 =[]
+    numeros_lista2 = []
+    mostrar_numeros()
+
+base = tk.Label(ventana, text="Base de los numeros:")
 entrada_base = tk.Entry(ventana)
 boton_base = tk.Button(ventana, text="Guardar base", command=asignar_bas)
 
 etiqueta_lista1 = tk.Label(ventana, text="Numero 1: Ingresa el elemento:")
 entrada_lista1 = tk.Entry(ventana)
+
 boton_agregar_lista1 = tk.Button(ventana, text="Agregar al numero 1", command=agregar_numero_lista1)
 
 etiqueta_lista2 = tk.Label(ventana, text="Numero 2: Ingresa el elemento:")
@@ -131,35 +148,41 @@ entrada_base.bind("<Return>", lambda event=None: asignar_bas())
 entrada_lista1.bind("<Return>", lambda event=None: agregar_numero_lista1())
 entrada_lista2.bind("<Return>", lambda event=None: agregar_numero_lista2())
 
-base.pack()
-entrada_base.pack()
-boton_base.pack()
-etiqueta_lista1.pack()
-entrada_lista1.pack()
-boton_agregar_lista1.pack()
-
-etiqueta_lista2.pack()
-entrada_lista2.pack()
-boton_agregar_lista2.pack()
-
-boton_mostrar.pack()
-
-etiqueta_estado.pack()
+boton_limpiar_lista1 = tk.Button(ventana, text="Limpiar", command=limpiar1)
+boton_limpiar_lista2 = tk.Button(ventana, text="Limpiar", command=limpiar2)
 boton_operar = tk.Button(ventana, text="Operar", command=operar)
 
-boton_operar.pack()
 etiqueta_suma = tk.Label(ventana, text="")
-etiqueta_suma.pack()
 boton_asignar_suma_num_1 = tk.Button(ventana, text="+Num1", command=asignar_suma_numero)
-boton_asignar_suma_num_1.pack(side=tk.TOP)
+
 boton_asignar_suma_num_2 = tk.Button(ventana, text="+Num2", command=asignar_suma_numero_2)
-boton_asignar_suma_num_2.pack(side=tk.TOP)
+
 
 etiqueta_resta = tk.Label(ventana, text="")
-etiqueta_resta.pack()
-boton_asignar_resta_num_1 = tk.Button(ventana, text="+Num1", command=asignar_resta_numero)
-boton_asignar_resta_num_1.pack(side=tk.TOP)
-boton_asignar_resta_num_2 = tk.Button(ventana, text="+Num2", command=asignar_resta_numero_2)
-boton_asignar_resta_num_2.pack(side=tk.TOP)
 
+boton_asignar_resta_num_1 = tk.Button(ventana, text="+Num1", command=asignar_resta_numero)
+
+boton_asignar_resta_num_2 = tk.Button(ventana, text="+Num2", command=asignar_resta_numero_2)
+
+ventana.geometry("600x400")
+base.place(x=10, y=10)
+entrada_base.place(x=200, y=10)
+boton_base.place(x=350, y=10)
+etiqueta_lista1.place(x=10, y=50)
+entrada_lista1.place(x=200, y=50)
+boton_limpiar_lista1.place(x=475, y=50)
+boton_agregar_lista1.place(x=350, y=50)
+etiqueta_lista2.place(x=10, y=90)
+entrada_lista2.place(x=200, y=90)
+boton_limpiar_lista2.place(x=475, y=90)
+boton_agregar_lista2.place(x=350, y=90)
+boton_mostrar.place(x=10, y=130)
+etiqueta_estado.place(x=10, y=170)
+boton_operar.place(x=10, y=210)
+etiqueta_suma.place(x=10, y=250)
+boton_asignar_suma_num_1.place(x=300, y=250)
+boton_asignar_suma_num_2.place(x=350, y=250)
+etiqueta_resta.place(x=10, y=290)
+boton_asignar_resta_num_1.place(x=300, y=290)
+boton_asignar_resta_num_2.place(x=350, y=290)
 ventana.mainloop()
