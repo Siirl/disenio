@@ -35,6 +35,7 @@ def asignar_base_datos():
             letra = simbolos.get(num+1)+letras.get(minn+1)
             diccionario.update({temp:letra})
         minn = min
+    print(diccionario)
 
 def convert_to_base_10(num_str, base_ori):
     exponente = len(num_str)

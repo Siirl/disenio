@@ -8,6 +8,8 @@ entrada_habilitada = True
 numeros_lista1 = []  # Lista para almacenar los números de la primera lista
 numeros_lista2 = []  # Lista para almacenar los números de la segunda lista
 
+
+
 def igualar_longitud_listas(lista1, lista2):
     len1 = len(lista1)
     len2 = len(lista2)
@@ -69,6 +71,7 @@ def restaurar():
     etiqueta_estado.config(text="")
 
 def asignar_bas():
+    diseño_dos.asignar_diccionario()
     global entrada_habilitada
     base = entrada_base.get()
     diseño_dos.asignar_base(base)
@@ -127,9 +130,21 @@ def limpiar2():
     numeros_lista2 = []
     mostrar_numeros()
 
+def traducir_num():
+    num=entrada_numero_a_traducir.get()
+    resultado=diseño_dos.traduccion(num)
+    texto = 'El resultado de la traduccion es:'," ,".join(resultado)
+    etiqueta_resultado_traducir.config(text=texto)
+
+
+
 base = tk.Label(ventana, text="Base de los numeros:")
 entrada_base = tk.Entry(ventana)
 boton_base = tk.Button(ventana, text="Guardar base", command=asignar_bas)
+
+etiqueta_numero_a_traducir = tk.Label(ventana, text="Numero a traducir: ")
+entrada_numero_a_traducir = tk.Entry(ventana)
+etiqueta_resultado_traducir = tk.Label(ventana, text="")
 
 etiqueta_lista1 = tk.Label(ventana, text="Numero 1: Ingresa el elemento:")
 entrada_lista1 = tk.Entry(ventana)
@@ -147,6 +162,7 @@ etiqueta_estado = tk.Label(ventana, text="")
 entrada_base.bind("<Return>", lambda event=None: asignar_bas())
 entrada_lista1.bind("<Return>", lambda event=None: agregar_numero_lista1())
 entrada_lista2.bind("<Return>", lambda event=None: agregar_numero_lista2())
+entrada_numero_a_traducir.bind("<Return>", lambda event=None: traducir_num)
 
 boton_limpiar_lista1 = tk.Button(ventana, text="Limpiar", command=limpiar1)
 boton_limpiar_lista2 = tk.Button(ventana, text="Limpiar", command=limpiar2)
@@ -164,6 +180,8 @@ boton_asignar_resta_num_1 = tk.Button(ventana, text="+Num1", command=asignar_res
 
 boton_asignar_resta_num_2 = tk.Button(ventana, text="+Num2", command=asignar_resta_numero_2)
 
+boton_traducir = tk.Button(ventana, text="Traducir", command=traducir_num)
+
 ventana.geometry("600x400")
 base.place(x=10, y=10)
 entrada_base.place(x=200, y=10)
@@ -171,6 +189,10 @@ boton_base.place(x=350, y=10)
 etiqueta_lista1.place(x=10, y=50)
 entrada_lista1.place(x=200, y=50)
 boton_limpiar_lista1.place(x=475, y=50)
+etiqueta_numero_a_traducir.place(x=575, y=50)
+etiqueta_resultado_traducir.place(x=575, y=75)
+entrada_numero_a_traducir.place(x=650, y=50)
+boton_traducir.place(x=750, y=50)
 boton_agregar_lista1.place(x=350, y=50)
 etiqueta_lista2.place(x=10, y=90)
 entrada_lista2.place(x=200, y=90)
