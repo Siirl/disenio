@@ -1,12 +1,15 @@
 numero1 = []
 numero2 = []
 resultado_suma = []
+valor_suma =[]
 resultado_resta = []
+valor_resta = []
 base = 0
 tam=0
 temp=False
-
+numero_destino = []
 lista_caracteres = []
+
 
 
 def asignar_diccionario():
@@ -61,46 +64,59 @@ def asignar_diccionario():
                        '🀄' , '🀀' , '🀀' , '🀂' , '🀃' , '🀅' , '🀆' , '🀇' , '🀈' , '🀉' , '🀊' , '🀋' , '🀌' , '🀍' , '🀎' , '🀏' , '🀐' , '🀑' , '🀒' , '🀓' , '🀔' , '🀕' , '🀖' , '🀗' , '🀘' , '🀙' ,
                        '🀚' , '🀛' , '🀜' , '🀝' , '🀞' , '🀟' , '🀠' , '🀡' , '🀢' , '🀣' , '🀤' , '🀥' , '🀦' , '🀧' , '🀨' , '🀩' , '🀪' , '🀫︎',
                        '♡' , '♢' , '♤' , '♧' , '♣' , '♦' , '♥' , '♠︎','🀰' , '🀱' , '🀲' , '🀳' , '🀴' , '🀵' , '🀶' , '🀷' , '🀸' , '🀹' , '🀺' ,
-                       '🀻' , '🀼' , '🀽' , '🀾' , '🀿' , '🁀' , '🁁' , 'ㅰ'
+                       '🀻' , '🀼' , '🀽' , '🀾' , '🀿' , '🁀' , '🁁'
 
                        ]
     for temp in range (10): #Asigna los primeros 10 valores
-        lista_caracteres.append(temp)
+        lista_caracteres.append(str(temp))
     lista_caracteres.extend(lista_letras_mayuscula)
     lista_caracteres.extend(lista_letras_minuscula)
     lista_caracteres.extend(special_symbols)
 
-def traduccion(num):
-    cadena_traducida =[]
+
+def encontrar_posiciones(elementos_a_buscar):
     global lista_caracteres
-    i = len(str(num))
-    for cont in range(i - 1, -1, -1):
-        print(num[cont])
-        print(lista_caracteres[num[cont]], end="")
-    cadena_traducida.append(lista_caracteres[int(num)])
+    resultado = []
+    for elemento in elementos_a_buscar:
+        for i, item in enumerate(lista_caracteres):
+            if elemento == item:
+                resultado.append(i)
+                break
+    return resultado
+
+def obtener_valores_por_posicion(posiciones):
+    global lista_caracteres
+    valores = []
+    for pos in posiciones:
+        if 0 <= pos < len(lista_caracteres):  # Verificar que la posición sea válida
+            valores.append(lista_caracteres[pos])
+        else:
+            valores.append(None)  # Puedes manejar posiciones inválidas de la forma que desees
+    return valores
+
+def traduccion(num):
+    cadena_traducida = ""
+    global lista_caracteres
+    cadena_traducida = lista_caracteres[int(num)]
     return cadena_traducida
 
 def asignar_base(base_num):
     global base
     base = base_num
 
+######################################################################################################################
+#----------------------------------------Funciones Segundo Laboratorio-----------------------------------------------#
+######################################################################################################################
+
 def operar():
-    global resultado_resta, resultado_suma
+    global resultado_resta, resultado_suma, temp
     global numero1
     global numero2
     global tam
     num=numero1.copy()
     num2=numero2.copy()
-    if temp==False:
-        tam = arreglar_num()
-        realizar_operacion_resta(num,num2,tam)
-        realizar_operacion_suma(num,num2,tam)
-    else:
-        num.reverse()
-        num2.reverse()
-        realizar_operacion_resta(num,num2,tam)
-        realizar_operacion_suma(num,num2,tam)
-    print("Suma: ",resultado_suma,"\nResta: ",resultado_resta)
+    realizar_operacion_suma(num,num2,tam)
+    realizar_operacion_resta(num,num2,tam)
     
     
 
@@ -110,63 +126,207 @@ def asignar_numeros(num1, num2):
     numero1 = num1
     numero2 = num2
 
-def arreglar_num():
-    global numero1
-    global numero2
-    global temp
-    tam = max(len(numero1), len(numero2))
-    numero1 = [0] * (tam - len(numero1)) + numero1
-    numero2 = [0] * (tam - len(numero2)) + numero2
-    numero1.reverse()
-    numero1.append(0)
-    numero2.reverse()
-    numero2.append(0)
-    temp=True
-    return tam
-
-def realizar_operacion_suma(num,num2,tam):
-    global resultado_suma
+def realizar_operacion_suma(nume,nume2,tam):
+    global resultado_suma,valor_suma
     global base
+    operacion=0
     resultado_suma.clear()
-    num,num2=verificar_numeros(num,num2,tam)
+    num=nume.copy()
+    num2=nume2.copy()
+    num.reverse()
+    num2.reverse()
     num.append(0)
     num2.append(0)
     base = int(base)
     for x in range(tam+1):
         operacion = int(num[x])+int(num2[x])
-        if operacion>=base:
+        if (operacion>base or operacion==base):
             num[x+1]= num[x+1]+1
-            operacion = operacion-base
+            operacion = operacion - int(base) 
         resultado_suma.append(operacion)
     resultado_suma.reverse()
+    valor_suma=resultado_suma
+    resultado_suma=obtener_valores_por_posicion(resultado_suma)
 
 def realizar_operacion_resta(num,num2,tam):
-    global resultado_resta
+    global resultado_resta, valor_resta
     global base
     resultado_resta.clear()
     base = int(base)
-    num,num2=verificar_numeros(num,num2,tam)
-    num.reverse()
-    num2.reverse()
-    for x in range(tam):
-        if (int(num[x])<int(num2[x])):
-            num[x+1]=num[x+1]-1
-            num[x]=num[x]+base
-        operacion = int(num[x])-int(num2[x])
+    if (comparar_listas_numeros(num,num2)):
+        nume=num.copy()
+        nume2=num2.copy()
+    else:
+        nume2=num.copy()
+        nume=num2.copy()
+    nume.reverse()
+    nume2.reverse()
+    print(nume,nume2)
+    for x in range(tam-1):
+        print(nume[x],nume2[x])
+        if (int(nume[x])<int(nume2[x])):
+            nume[x+1]=nume[x+1]-1
+            nume[x]=nume[x]+base
+        operacion = int(nume[x])-int(nume2[x])
         resultado_resta.append(operacion)
     resultado_resta.reverse()
+    valor_resta = resultado_resta
+    resultado_resta = obtener_valores_por_posicion(resultado_resta)
 
+def comparar_listas_numeros(lista1, lista2):
+    # Verifica si las listas tienen la misma longitud
+    if len(lista1) != len(lista2):
+        return "Las listas no tienen la misma longitud"
+    
+    # Invierte las listas para comparar desde la posición de mayor peso
+    lista1 = lista1[::-1]
+    lista2 = lista2[::-1]
+
+    for i in range(len(lista1)):
+        if lista1[i] > lista2[i]:
+            return True
+        elif lista2[i] > lista1[i]:
+            return False
+    
+    return "Ambas listas son iguales"
         
-def verificar_numeros(num,num2,tam):
-    global numero1
-    global numero2
-    numero1.reverse()
-    numero2.reverse()
-    num=numero1.copy()
-    num2=numero2.copy()
-    for x in range(tam):
-        if num[tam-x-1] < num2[tam-x-1]:
-            return num2,num
-        else:
-            return num,num2
         
+######################################################################################################################
+#----------------------------------------Funciones Primer Laboratorio------------------------------------------------#
+######################################################################################################################
+
+
+def convert_to_base_10(num_str, base_ori):
+    exponente = len(num_str)
+    resultado_base_10 = 0
+    for x in range(1, exponente+1):
+        resultado_base_10 += num_str[x-1]*((base_ori)**(exponente-x))
+    return resultado_base_10
+
+def convert_from_base_10(number, base):
+    numer = ''.join(str(digit) for digit in number)
+    numero = int(numer)
+    result = ""
+    while numero > 0:
+        digit = numero % base
+        numero_destino.insert(0,digit)
+        num_traducido = lista_caracteres[digit]
+        result = num_traducido+ result
+        numero //= base
+    return result
+
+def convertir_from_base_10(number, base):
+    result = ""
+    while number > 0:
+        digit = number % base
+        numero_destino.insert(0,digit)
+        num_traducido = lista_caracteres[digit]
+        result = num_traducido+ result
+        number //= base
+    return result
+
+
+def convert_between_bases(num_str, base_origin, base_dest):
+    if base_origin == base_dest:
+        return num_str
+    
+    if base_origin == 10:
+        num_in_base_dest = convert_from_base_10(num_str, base_dest)
+    elif base_dest == 10:
+        num_in_base_dest = convert_to_base_10(num_str, base_origin)
+    else:
+        num_in_base_10 = convert_to_base_10(num_str, base_origin)
+        num_in_base_dest = convertir_from_base_10(num_in_base_10, base_dest)
+    
+    return num_in_base_dest
+
+def encontrar_exponente(base_1, base_2):
+    exponente = 0
+    while base_1 ** exponente != base_2:
+        exponente += 1
+        if base_1 ** exponente > base_2:
+            return None  # No es una relación de potencias exacta
+    return exponente
+
+
+def encontrar_exponente(base_destino, base_origen):
+    exponente = 0
+    while base_destino ** exponente != base_origen:
+        exponente += 1
+        if base_destino ** exponente > base_origen:
+            return None  # No es una relación de potencias exacta
+    return exponente
+
+def encontrar_relacion_potencias(base_destino, base_origen):
+    exponente = encontrar_exponente(base_destino, base_origen)
+    if exponente is not None:
+        return exponente
+    else:
+        return "No hay una relación de potencias exacta"
+    
+
+def rela_potencias_mayor_a_menor(base_destino,lista_elementos,base_origen):
+    divisor = base_destino
+    base = base_origen
+    potencia = encontrar_relacion_potencias(divisor,base)
+    tamaño_lista=len(lista_elementos)
+    resultado_final=""
+    primer_numero=""
+    for x in range(tamaño_lista):
+        nume_a_operar = int(lista_elementos[tamaño_lista-x-1])
+        for exp in range (potencia+1):
+            cociente = nume_a_operar // (divisor**(int(potencia-exp)))
+            residuo = nume_a_operar % (divisor**(int(potencia-exp)))
+            primer_numero = str(primer_numero)+str(cociente)
+            nume_a_operar = residuo
+        print(primer_numero)
+        resultado_final=str(int(primer_numero))+resultado_final
+        primer_numero=""
+    final=int(resultado_final)
+    return final
+
+def agregar_ceros(exponente):
+    numero = 1
+    veces = int(exponente)-1
+    for x in range(veces):
+        numero= int(str(numero)+str(0))
+    return numero
+
+def arreglarLista(lista,numeeee):
+    result = []
+    grupos = []
+
+    # Divide cada número en dígitos y almacénalos en la lista 'result'
+    for number in lista:
+        number_str = str(number)
+        result.extend(map(str, number_str))
+
+    # Invierte la lista resultante
+    lista2 = result[::-1]
+    # Agrupa en grupos de 3
+    for i in range(0, len(lista2), numeeee):  # Cambio de 2 a 3 aquí
+        grupo = lista2[i:i + numeeee]
+        grupos.append(str(''.join(map(str, grupo))))
+
+    # Invierte nuevamente cada número en los grupos
+    grup = [int(str(num)[::-1]) for num in grupos]
+
+    return grup
+
+def convert_bases_relation_normal(lista_numeros,base_origen,exponente):
+    result = ""
+    numero=0
+    lista_strings = list(map(str, lista_numeros))
+    list_arreglada = arreglarLista(lista_strings,exponente)
+    lista_arre_str = list(map(str, list_arreglada))
+    for x in range(len(lista_arre_str)): #Se opera
+        num_in_x = "{:0{exponente}d}".format(int(lista_arre_str[x]), exponente=exponente) #cadena de formato obtenida en GPT
+        for exp in range(exponente):
+            dividir = agregar_ceros(exponente-exp)
+            temp= int(num_in_x)//dividir
+            numero = numero +(temp*(int(base_origen)**(exponente-exp-1)))
+            if len(num_in_x)>1:
+                num_in_x=num_in_x[1:]
+        result=lista_caracteres[numero]+result
+        numero=0
+    return result
