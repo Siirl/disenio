@@ -125,6 +125,7 @@ def operar():
     if (len(nume1) != len(nume2)):
         nume1, nume2 =igualar_longitud_listas(nume1, nume2)
     tam = len(nume1)
+    print(nume1,nume2,tam)
     diseño_dos.numero1 = nume1
     diseño_dos.numero2 = nume2
     diseño_dos.tam = tam
