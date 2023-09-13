@@ -162,12 +162,15 @@ def realizar_operacion_resta(num,num2,tam):
     nume.reverse()
     nume2.reverse()
     print(nume,nume2)
+    if (tam==1):
+        tam=tam+1
     for x in range(tam-1):
         print(nume[x],nume2[x])
         if (int(nume[x])<int(nume2[x])):
             nume[x+1]=nume[x+1]-1
             nume[x]=nume[x]+base
         operacion = int(nume[x])-int(nume2[x])
+        print(operacion)
         resultado_resta.append(operacion)
     resultado_resta.reverse()
     valor_resta = resultado_resta
