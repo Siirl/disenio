@@ -153,13 +153,9 @@ def realizar_operacion_resta(num,num2,tam):
     global base
     resultado_resta.clear()
     base = int(base)
-    if (comparar_listas_numeros(num,num2)):
-        nume2=num.copy()
-        nume=num2.copy()
-    else:
-        nume=num.copy()
-        nume2=num2.copy()
-        
+
+    nume=num.copy()
+    nume2=num2.copy()
     nume.reverse()
     nume2.reverse()
     print(nume,nume2)
