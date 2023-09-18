@@ -153,42 +153,32 @@ def realizar_operacion_resta(num,num2,tam):
     global base
     resultado_resta.clear()
     base = int(base)
-
-    nume=num.copy()
-    nume2=num2.copy()
+    if (comparar_listas_numeros(num,num2)):
+        nume=num.copy()
+        nume2=num2.copy()
+    else:
+        nume2=num.copy()
+        nume=num2.copy()
     nume.reverse()
     nume2.reverse()
-    print(nume,nume2)
-    if (tam==1):
-        tam=tam+1
-    for x in range(tam-1):
-        print(nume[x],nume2[x])
+    for x in range(tam):
         if (int(nume[x])<int(nume2[x])):
             nume[x+1]=nume[x+1]-1
             nume[x]=nume[x]+base
         operacion = int(nume[x])-int(nume2[x])
-        print(operacion)
         resultado_resta.append(operacion)
     resultado_resta.reverse()
     valor_resta = resultado_resta
     resultado_resta = obtener_valores_por_posicion(resultado_resta)
 
 def comparar_listas_numeros(lista1, lista2):
-    # Verifica si las listas tienen la misma longitud
-    if len(lista1) != len(lista2):
-        return "Las listas no tienen la misma longitud"
-    
-    # Invierte las listas para comparar desde la posición de mayor peso
-    lista1 = lista1[::-1]
-    lista2 = lista2[::-1]
-
     for i in range(len(lista1)):
         if lista1[i] > lista2[i]:
             return True
         elif lista2[i] > lista1[i]:
             return False
     
-    return "Ambas listas son iguales"
+    return True
         
         
 ######################################################################################################################
