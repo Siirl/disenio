@@ -1,70 +1,40 @@
 import tkinter as tk
-def obtener_numeros(expresion):
-    numeros = []
-    numero_actual = ""
-    
-    for caracter in expresion:
-        if caracter.isdigit():
-            numero_actual += caracter
-        elif numero_actual:
-            numeros.append(numero_actual)
-            numero_actual = ""
-    
-    if numero_actual:
-        numeros.append(numero_actual)
-    
-    return numeros
+from tkinter import ttk
 
-def calcular_expresion(expresion):
-    
-    numeros = obtener_numeros(expresion)
-    # Esta función de cálculo es similar a la que hemos discutido previamente
-    stack = []
-    resultado = 0
-    operador = "+"
+# Función para crear y mostrar la tabla en la interfaz
+def mostrar_tabla():
+    # Eliminar cualquier widget previo en el contenedor de la tabla
+    for widget in tabla_frame.winfo_children():
+        widget.destroy()
 
-    for elemento in expresion:
-        if elemento == "(":
-            stack.append((resultado, operador))
-            resultado = 0
-            operador = "+"
-        elif elemento == ")":
-            operando, operador_anterior = stack.pop()
-            if operador_anterior == "+":
-                resultado = operando + resultado
-            elif operador_anterior == "-":
-                resultado = operando - resultado
-        elif elemento.isnumeric():
-            numero = int(elemento)
-            if operador == "+":
-                resultado += numero
-            elif operador == "-":
-                resultado -= numero
-        elif elemento in ("+", "-"):
-            operador = elemento
-    
-    return resultado
+    # Datos a mostrar en la tabla
+    datos = [['A', 'B', '0', '1', '0+A', '0+A+B'],['0', '0', '0', '1', '0', '0'],['0', '1', '0', '1', '0', '1'],['1', '0', '0', '1', '1', '1'],['1', '1', '0', '1', '1', '1']]
 
-def calcular():
-    expresion = entrada.get()  # Obtiene la expresión ingresada por el usuario desde la entrada de texto
-    resultado = calcular_expresion(expresion)
-    resultado_label.config(text=f"Resultado: {resultado}")
+    # Encabezados de columna
+    encabezados = datos[0]
+
+    # Crear encabezados de columna
+    for col, encabezado in enumerate(encabezados):
+        etiqueta = ttk.Label(tabla_frame, text=encabezado, font=("Arial", 12, "bold"))
+        etiqueta.grid(row=0, column=col, padx=5, pady=5, sticky="nsew")
+
+    # Mostrar datos en la tabla
+    for row, fila in enumerate(datos[1:], start=1):
+        for col, valor in enumerate(fila):
+            etiqueta = ttk.Label(tabla_frame, text=valor, font=("Arial", 12))
+            etiqueta.grid(row=row, column=col, padx=5, pady=5, sticky="nsew")
 
 # Crear una ventana
 ventana = tk.Tk()
-ventana.title("Calculadora")
+ventana.title("Tabla en la Interfaz")
 
-# Crear una entrada de texto
-entrada = tk.Entry(ventana)
-entrada.pack()
+# Crear un marco para la tabla
+tabla_frame = ttk.Frame(ventana)
+tabla_frame.pack()
 
-# Botón para calcular
-calcular_button = tk.Button(ventana, text="Calcular", command=calcular)
-calcular_button.pack()
+# Botón para mostrar la tabla
+mostrar_btn = ttk.Button(ventana, text="Mostrar Tabla", command=mostrar_tabla)
+mostrar_btn.pack()
 
-# Etiqueta para mostrar el resultado
-resultado_label = tk.Label(ventana, text="")
-resultado_label.pack()
-
-# Iniciar el bucle principal de la ventana
+# Ejecutar la aplicación
 ventana.mainloop()
