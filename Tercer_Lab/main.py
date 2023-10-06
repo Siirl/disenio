@@ -91,8 +91,9 @@ def mostrar_tabla(datos):
     # Mostrar datos en la tabla
     for row, fila in enumerate(datos[1:], start=1):
         for col, valor in enumerate(fila):
-            etiqueta = ttk.Label(tabla_frame, text=valor, font=("Arial", 12))
+            etiqueta = ttk.Label(tabla_frame, text=valor, font=("Arial", 12), anchor="center", justify="center")
             etiqueta.grid(row=row, column=col, padx=5, pady=5, sticky="nsew")
+
         
 # Crear una ventana
 ventana = tk.Tk()
