@@ -46,7 +46,7 @@ def multiplicacion(tabla,val1,val2):
 
 def negacion(tabla,n):
     global tabla_verdad
-    result=[f'-{tabla[0][n]}']
+    result=[f'-({tabla[0][n]})']
     texto=result[0]
     for x in range(len(tabla)-1):
         valor1=tabla[x+1][n]

@@ -3,18 +3,21 @@ from tkinter import ttk
 import procesos
 
 letras=["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L","M", "N", "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z","a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l","m", "n", "ñ", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+respaldo=["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L","M", "N", "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z","a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l","m", "n", "ñ", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+
 variables = []
 tabla_de_verdad=[]
 
 # Función para evaluar la expresión
 def calcular():
     global tabla_de_verdad, variables
-    variables.clear
-    tabla_de_verdad.clear
-    procesos.tabla_verdad.clear
+    letras = respaldo.copy()
+    variables.clear()
+    tabla_de_verdad.clear()
+    procesos.tabla_verdad.clear()
     expresion_actual = str(entrada.get())
-    for elementos in expresion_actual:
-        elemento=elementos.upper()
+    expresion_actual=expresion_actual.upper()
+    for elemento in expresion_actual:
         if elemento in letras:
             variables.append(elemento)
             letras.remove(elemento) 
@@ -28,7 +31,6 @@ def calcular():
 
 def calcular_expresion(expresion):
     global tabla_de_verdad
-    negar_expresion=False
     # Esta función de cálculo es similar a la que hemos discutido previamente
     stack = []
     resultado = '|' #posicion de 0
@@ -71,7 +73,6 @@ def calcular_expresion(expresion):
                 negacion = False
             else:
                 negacion=True
-    
     return resultado
 
 def mostrar_tabla(datos):
