@@ -16,9 +16,7 @@ def generar_tabla(variables,n):
 
 def suma(tabla,val1,val2):
     global tabla_verdad
-    print(val1,val2)
     if tabla_verdad[0][val1] == '|':
-        print("RETORNAR")
         return tabla_verdad[0][val2]
     result=[f'{tabla_verdad[0][val1]}+{tabla_verdad[0][val2]}']
     texto=result[0]
@@ -33,9 +31,7 @@ def suma(tabla,val1,val2):
 
 def multiplicacion(tabla,val1,val2):
     global tabla_verdad
-    print(val1,val2)
     if tabla_verdad[0][val1] == '|':
-        print("RETORNAR")
         return tabla_verdad[0][val2]
     result=[f'{tabla_verdad[0][val1]}*{tabla_verdad[0][val2]}']
     texto=result[0]

@@ -1,106 +1,42 @@
-import tkinter as tk
-from tkinter import ttk
-import procesos
+import itertools
 
-letras=["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L","M", "N", "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z","a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l","m", "n", "ñ", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
-variables = []
-tabla_de_verdad=[]
+def generate_truth_table(variables):
+    num_variables = len(variables)
+    truth_table = []
 
-# Función para evaluar la expresión
-def calcular():
-    global tabla_de_verdad, variables
-    variables.clear
-    tabla_de_verdad.clear
-    procesos.tabla_verdad.clear
-    expresion_actual = str(entrada.get())
-    for elementos in expresion_actual:
-        elemento=elementos.upper()
-        if elemento in letras:
-            variables.append(elemento)
-            letras.remove(elemento) 
-    print(variables,tabla_de_verdad,procesos.tabla_verdad)
-    procesos.generar_tabla(variables,len(variables))
-    tabla_de_verdad = procesos.tabla_verdad.copy()
-    calcular_expresion(expresion_actual)
-    mostrar_tabla(procesos.tabla_verdad)
+    for values in itertools.product([True, False], repeat=num_variables):
+        row = dict(zip(variables, values))
+        if row == False:
+            row = 0
+        elif row == True:
+            row = 1
+        truth_table.append(row)
 
+    return truth_table
 
+def evaluate_expression(expression, truth_table):
+    results = []
+    for row in truth_table:
+        result = eval(expression, row)
+        results.append(result)
+        print(results)
+    return results
 
-def calcular_expresion(expresion):
-    global tabla_de_verdad
-    # Esta función de cálculo es similar a la que hemos discutido previamente
-    stack = []
-    resultado = '|' #posicion de 0
-    operador = "+" #si se suma 0 el resultado es la misma variable
+def main():
+    variables = input("Ingrese las variables separadas por comas (por ejemplo, A, B, C): ").replace(" ", "").split(",")
+    expression = input("Ingrese una expresión lógica usando las variables ingresadas (usando & para AND, | para OR, ~ para NOT, y () para agrupar): ")
 
-    for elemento in expresion:
-        if elemento == "(":
-            stack.append((resultado, operador))
-            resultado = '|' #posicion de 0
-            operador = "+" #si se suma 0 el resultado es la misma variable
-        elif elemento == ")":
-            operando, operador_anterior = stack.pop()
-            val1=procesos.tabla_verdad[0].index(operando)
-            val2=procesos.tabla_verdad[0].index(resultado)
-            if operador_anterior == "+":
-                resultado = procesos.suma(procesos.tabla_verdad,val1, val2)
-            elif operador_anterior == "*":
-                resultado = procesos.suma(procesos.tabla_verdad,val1, val2)
-        elif elemento in variables:
-            val1=procesos.tabla_verdad[0].index(resultado)
-            val2=procesos.tabla_verdad[0].index(elemento)
-            if operador == "+":
-                resultado = procesos.suma(procesos.tabla_verdad,val1,val2)
-            elif operador == "*":
-                resultado = procesos.multiplicacion(procesos.tabla_verdad,val1,val2)
-        elif elemento in ("+", "*"):
-            operador = elemento
-    
-    return resultado
+    truth_table = generate_truth_table(variables)
+    results = evaluate_expression(expression, truth_table)
 
-def mostrar_tabla(datos):
-    # Eliminar cualquier widget previo en el contenedor de la tabla
-    for widget in tabla_frame.winfo_children():
-        widget.destroy()
+    print("\nTabla de Verdad:")
+    print(" | ".join(variables) + " | " + expression)
+    print("-" * (len(" | ".join(variables)) + len(expression) + 3))
 
-    # Encabezados de columna
-    encabezados = datos[0]
+    for i, row in enumerate(truth_table):
+        values = [str(row[var]) for var in variables]
+        result = results[i]
+        print(" | ".join(values) + f" | {result}")
 
-    # Crear encabezados de columna
-    for col, encabezado in enumerate(encabezados):
-        etiqueta = ttk.Label(tabla_frame, text=encabezado, font=("Arial", 12, "bold"))
-        etiqueta.grid(row=0, column=col, padx=5, pady=5, sticky="nsew")
-
-    # Mostrar datos en la tabla
-    for row, fila in enumerate(datos[1:], start=1):
-        for col, valor in enumerate(fila):
-            etiqueta = ttk.Label(tabla_frame, text=valor, font=("Arial", 12))
-            etiqueta.grid(row=row, column=col, padx=5, pady=5, sticky="nsew")
-        
-# Crear una ventana
-ventana = tk.Tk()
-ventana.title("Calculadora")
-
-# Campo de entrada para la expresión
-entrada = tk.Entry(ventana, width=20, font=("Arial", 16))
-entrada.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
-entrada.bind('<Return>', lambda event=None: calcular())
-
-# Etiqueta para mostrar el resultado
-resultado_label = tk.Label(ventana, text="", font=("Arial", 14))
-resultado_label.grid(row=1, column=0, columnspan=2, padx=10, pady=10)
-
-# Crear un marco para la tabla y configurar su estilo
-tabla_frame = ttk.Frame(ventana)
-tabla_frame.grid(row=0, column=2, rowspan=2, padx=10, pady=10, sticky="nsew")
-tabla_frame.grid_columnconfigure(0, weight=1)  # Hacer que la columna se expanda con la ventana
-
-# Configurar que las filas se expandan con la ventana
-ventana.grid_rowconfigure(0, weight=1)
-ventana.grid_rowconfigure(1, weight=1)
-
-# Configurar que la columna 0 se expanda con la ventana
-ventana.grid_columnconfigure(0, weight=1)
-
-# Ejecutar la aplicación
-ventana.mainloop()
+if __name__ == "__main__":
+    main()
