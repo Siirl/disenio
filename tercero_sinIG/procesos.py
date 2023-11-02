@@ -56,6 +56,20 @@ def negacion(tabla,n):
     tabla_verdad=result
     return texto
 
+def xor(tabla, val1, val2):
+    global tabla_verdad
+    if tabla_verdad[0][val1] == '|':
+        return tabla_verdad[0][val2]
+    result = [f'{tabla_verdad[0][val1]} XOR {tabla_verdad[0][val2]}']
+    texto = result[0]
+    for x in range(len(tabla_verdad) - 1):
+        valor1 = tabla_verdad[x + 1][val1]
+        valor2 = tabla_verdad[x + 1][val2]
+        operacion = int(valor1) ^ int(valor2)  # XOR operation
+        result.append(str(operacion))
+    result = unir_tablas(tabla_verdad, result)
+    tabla_verdad = result
+    return texto
 
 def unir_tablas(tabla_base, tabla_resultado):
     # Asegúrate de que la longitud de tabla_base y tabla_resultado coincida
